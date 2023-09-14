@@ -162,16 +162,20 @@ try:
         #frame_HSV = cv2.cvtColor(hsv, cv.COLOR_BGR2HSV)
         frame_threshold = cv2.inRange(hsv, (low_H, low_S, low_V), (high_H, high_S, high_V))
         contours, hierarchy = cv2.findContours(frame_threshold,cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)
- 
-        largest_contour=0
-        largest_area=0
-        for i, c in enumerate(contours):
-            areaContour=cv2.contourArea(c)
-            if areaContour>largest_contour:
-                largest_area=cv2.contourArea(c)
-                largest_contour=i
-                
-        cv2.drawContours(color_image,contours,largest_contour,(0,255,0),2)
+        if len(contours)>0:
+            largest_contour=0
+            largest_area=0
+            for i, c in enumerate(contours):
+                areaContour=cv2.contourArea(c)
+                if areaContour>largest_contour:
+                    largest_area=cv2.contourArea(c)
+                    largest_contour=i
+            M = cv2.moments(contours[largest_contour])
+            if M["m00"]>0.00001:
+                cx = int(M["m10"] / M["m00"])
+                cy = int(M["m01"] / M["m00"])
+                cv2.circle(color_image, (cx, cy), 5, (255, 0, 0), -1)      
+                cv2.drawContours(color_image,contours,largest_contour,(0,255,0),2)
      
 
             
