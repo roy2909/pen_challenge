@@ -174,15 +174,10 @@ try:
             if M["m00"]>0.00001:
                 cx = int(M["m10"] / M["m00"])
                 cy = int(M["m01"] / M["m00"])
-                cv2.circle(color_image, (cx, cy), 5, (255, 0, 0), -1)      
+                cv2.circle(color_image, (cx, cy), 5, (255, 0, 255), -1)   
+                print(depth_image[cy][cx])   
                 cv2.drawContours(color_image,contours,largest_contour,(0,255,0),2)
      
-
-            
-    
-    
-
-
         # Render images:
         #   depth align to color on left
         #   depth on right
