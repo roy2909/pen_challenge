@@ -1,5 +1,3 @@
-# start by running the following in a separate terminal:
-# ros2 launch interbotix_xsarm_control xsarm_control.launch.py robot_model:=px100
 
 from __future__ import print_function
 import pyrealsense2 as rs
@@ -70,35 +68,12 @@ robot.gripper.release(2.0)
 time.sleep(1)
 
 
-#### Calibration ####
-# # open grippers, give time to position pen in grippers, close grippers
-# # robot.gripper.release(2.0)
-# # time.sleep(8)
-# # robot.gripper.close(2.0)
+# Calibrate the pen and robot wrt to the camera to get the base coordinates of camera x,y,z
 
-# # find the position of the end effector given the joint states
-# joints = robot.arm.get_joint_commands()
 
-# T = mr.FKinSpace(robot.arm.robot_des.M, robot.arm.robot_des.Slist, joints)
-# [R, p] = mr.TransToRp(T) # get the rotation matrix and the displacement
-# print(f'pen coords wrt robot base: {p}')
-# # pen coords wrt robot base
-# P_rx, P_ry, P_rz = p[0], p[1], p[2]
-# print(P_rx, P_ry, P_rz)
-
-# P_cx = -0.044382
-# P_cy = -0.050578
-# P_cd = 0.278
-
-# O_cx = P_rx + P_cx
-# O_cy = P_ry + P_cd
-# O_cz = P_rz + P_cy
-# print(f"O_cx: {O_cx}, O_cy: {O_cy}, O_cz: {O_cz}")
-#### End Calibration ####
-
-O_cx = 0.215575
-O_cy = 0.342
-O_cz = 0.2151
+O_cx = 0.314575
+O_cy = 0.324
+O_cz = 0.2531
 
 
 ## Streaming loop
@@ -172,13 +147,7 @@ try:
 
                 # get location of centroid wrt camera in cartesian coordinates
                 pen_coords_wrt_camera = rs.rs2_deproject_pixel_to_point(intr, [centroid_x, centroid_y], pen_depth)
-                # print(f'pen coords wrt camera (m): {pen_coords_wrt_camera}')
 
-                ## Definitions
-                # intrinsics - the intrinsic parameters
-                # (px, py) - the pixel coordinates
-                # depth - the depth in meters
-                # returns the x,y, and z coordinates in meters as a list
 
                 # pen coords wrt camera
                 P_cx, P_cy, P_cd = pen_coords_wrt_camera[0], pen_coords_wrt_camera[1], pen_coords_wrt_camera[2]
@@ -187,7 +156,6 @@ try:
                 P_rx = O_cx - P_cx
                 P_ry = O_cy - P_cd
                 P_rz = O_cz - P_cy
-                # print(f'P_r coords: {P_rx} {P_ry} {P_rz}')
 
                 robot_current_angle = 0
                 # theta = waist rotation in radians
