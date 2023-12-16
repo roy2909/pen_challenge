@@ -3,6 +3,9 @@ Author: Rahul Roy
 
 Programmed a Pincher X100 4-DOF robot arm to grasp a purple colored pen.
 
+# Portfolio link
+https://roy2909.github.io/Pen/
+
 # Quickstart
 1. Clone the project into your workspace.
 2. To start the arm, open a new terminal window and run `ros2 launch interbotix_xsarm_control xsarm_control.launch.py robot_model:=px100`.
