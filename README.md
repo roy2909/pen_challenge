@@ -1,4 +1,4 @@
-## Automated Grasping: Pincher X100 4-DOF Robot Arm -Picks a Purple Pen
+## Automated Grasping: Pincher X100 4-DOF Robot Arm Grasps a Purple Pen
 Author: Rahul Roy
 
 Programmed a Pincher X100 4-DOF robot arm to grasp a purple colored pen.
